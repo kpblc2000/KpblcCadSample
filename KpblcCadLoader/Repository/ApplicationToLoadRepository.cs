@@ -45,7 +45,7 @@ namespace KpblcCadLoader.Repository
                 }
 
                 entity.ServerPath = o.Path.OrderByDescending(p => p.Priority)
-                    .First(p => Directory.Exists(p));
+                    .FirstOrDefault(p => Directory.Exists(p.Value))?.Value ?? string.Empty;
 
                 entity.LocalPath = Path.Combine(Environment.GetEnvironmentVariable("appdata"), o.LocalPath);
 
