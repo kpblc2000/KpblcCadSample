@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 *.mnr
 *.bak.cuix
+*._mn

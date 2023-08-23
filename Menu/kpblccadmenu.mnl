@@ -1,0 +1,34 @@
+;; mnl
+
+(vl-load-com)
+
+(defun menu-loader-and-all-updates ()
+                                   ;|
+  *    Выполняет проверку необходимости обновления NET-сборки загрузчика
+  *    При необходимости - загрузка того самого загрузчика (а он, в свою очередь, уже будет обновлять и загружать
+  * все остальные модули - NEt / ARX / LSP / FAS / VLX ...
+  *    Имя "загрузчика" и перечень каталогов в которых он может находиться, будет напрямую прописано в этом коде
+  |;
+  (setq
+          ; имя загрузчика
+    net_loader_name "kpblccadloader.dll"
+          ; перечень возможных серверных путей, где он будет болтаться
+    server_paths    '("\\\\server\\apps\\loader"
+                      "\\\\\\vmware-host\\Shared Folders\\Share\\KpblcCadSample\\loader"
+                     )
+          ; локальный путь расположения загрузчика
+    local_path      (strcat (getenv "appdata") "\\KpblcCadSample\\Loader")
+  ) ;_ end of setq
+
+  (if (findfile (setq local_loader (strcat local_path "\\" net_loader_name)))
+    (progn
+     ;; чего-то делаем
+    )
+    (progn
+      (setq msg (strcat "Загрузчик не найден по пути " local_loader))
+      (alert msg)
+      (princ msg)
+    ) ;_ end of progn
+  ) ;_ end of if
+  (princ)
+) ;_ end of defun
