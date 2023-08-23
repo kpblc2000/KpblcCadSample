@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Applications>
+	<!--
+	Описание приложений для загрузки
+	Name = имя приложения. Чисто для информации
+	AppType = тип приложения. Managed = NET-сборка; Arx - arx-модуль; Lsp - lsp-файл
+	LocalPath = локальный путь расположения приложения. Высчитывается от %AppData%
+	AppName = собственно имя приложения, с расширением
+	  Подузлы - перечень путей, по которым надо искать приложение
+	    Value = каталог, в котором надо искать
+		Priority = приоритет поиска. Чем число ниже, тем более приоритетен каталог
+	-->
+	<Item Name="KpblcCadSample" AppType="Managed" LocalPath="KpblcCadSample" AppName="KpblcCadSample.dll">
+		<Path Value="\\server\loader" Priority="0"/>
+		<Path Value="\\vmware-host\Shared Folders\Share\KpblcCadSample\loader" Priority="-1"/>
+	</Item>
+</Applications>
