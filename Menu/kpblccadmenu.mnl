@@ -2,13 +2,51 @@
 
 (vl-load-com)
 
-(defun menu-loader-and-all-updates ()
+(defun menu-loader-and-all-updates (/ fun_append-zero-to-value fun_get-file-systime local_loader local_path msg net_loader_name server_loader server_paths
+                                   )
                                    ;|
   *    Выполняет проверку необходимости обновления NET-сборки загрузчика
   *    При необходимости - загрузка того самого загрузчика (а он, в свою очередь, уже будет обновлять и загружать
   * все остальные модули - NEt / ARX / LSP / FAS / VLX ...
   *    Имя "загрузчика" и перечень каталогов в которых он может находиться, будет напрямую прописано в этом коде
   |;
+
+  (defun fun_append-zero-to-value (value len)
+                                  ;|
+  *    Дополняет переданную строку нулем
+  *    Параметры вызова:
+    value  ; обрабатываемая строка
+    len    ; результирующая длина строки
+  *    Пример вызова:
+  (fun_append-zero-to-value "123" 6) ; "000123")
+  |;
+    (while (< (strlen value) len)
+      (setq value (strcat "0" value))
+    ) ;_ end of while
+    value
+  ) ;_ end of defun
+
+  (defun fun_get-file-systime (filename / date)
+                              ;|
+    *    Возвращает время файла
+    *    Параметры вызова:
+      filename  ; обрабатываемое имя файла
+    |;
+    (setq date (vl-file-systime filename)
+          date (apply (function strcat)
+                      (mapcar
+                        (function
+                          (lambda (x)
+                            (fun_append-zero-to-value (itoa (nth x date)) 2)
+                          ) ;_ end of lambda
+                        ) ;_ end of function
+                        '(0 1 3 4 5 6 7)
+                      ) ;_ end of mapcar
+               ) ;_ end of apply
+    ) ;_ end of setq
+  ) ;_ end of defun
+
+
   (setq
           ; имя загрузчика
     net_loader_name "kpblccadloader.dll"
@@ -22,8 +60,70 @@
 
   (if (findfile (setq local_loader (strcat local_path "\\" net_loader_name)))
     (progn
-     ;; чего-то делаем
-    )
+      (if (setq server_loader
+                 (car (vl-remove nil
+                                 (mapcar
+                                   (function
+                                     (lambda (folder)
+                                       (findfile (strcat folder "\\" net_loader_name))
+                                     ) ;_ end of lambda
+                                   ) ;_ end of function
+                                   server_paths
+                                 ) ;_ end of mapcar
+                      ) ;_ end of vl-remove
+                 ) ;_ end of car
+          ) ;_ end of setq
+        (progn
+          ;; Серверный загрузчик найден, можно пробовать обновить локальную копию
+          (setq local_loader_datetime
+                 (fun_get-file-systime local_loader)
+                server_loader_datetime
+                 (fun_get-file-systime server_loader)
+          ) ;_ end of setq
+          (if (< local_loader_datetime server_loader)
+            (progn
+              (vl-catch-all-apply
+                (function (lambda ()
+                            (vl-file-delete local_loader)
+                          ) ;_ end of lambda
+                ) ;_ end of function
+              ) ;_ end of vl-catch-all-apply
+              (if (not (findfile local_loader))
+                (vl-file-copy server_loader local_loader)
+              ) ;_ end of if
+            ) ;_ end of progn
+          ) ;_ end of if
+        ) ;_ end of progn
+      ) ;_ end of if
+      (if (findfile local_loader)
+        ((lambda (/ sysvars)
+           (setq sysvars (vl-remove nil
+                                    (mapcar
+                                      (function
+                                        (lambda (x / temp)
+                                          (if (setq temp (getvar (car x)))
+                                            (progn
+                                              (setvar (car x) (cdr x))
+                                              (cons (car x) temp)
+                                            ) ;_ end of progn
+                                          ) ;_ end of if
+                                        ) ;_ end of lambda
+                                      ) ;_ end of function
+                                      '(("cmdecho" . 0)
+                                        ("menuecho" . 0)
+                                        ("nomutt" . 1)
+                                       )
+                                    ) ;_ end of mapcar
+                         ) ;_ end of vl-remove
+           ) ;_ end of setq
+           (vl-cmdf "_.netload" local_loader)
+           (foreach item sysvars
+             (setvar (car item) (cdr item))
+           ) ;_ end of foreach
+         ) ;_ end of lambda
+        )
+      ) ;_ end of if
+    ) ;_ end of progn
     (progn
       (setq msg (strcat "Загрузчик не найден по пути " local_loader))
       (alert msg)
