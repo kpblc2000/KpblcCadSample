@@ -2,7 +2,7 @@
 
 (vl-load-com)
 
-(defun menu-loader-and-all-updates (/ fun_append-zero-to-value fun_get-file-systime local_loader local_path msg net_loader_name server_loader server_paths
+(defun menu-loader-and-all-updates (/ fun_append-zero-to-value fun_get-file-systime fun_get-xml-files local_loader local_path msg net_loader_name server_loader server_paths
                                    )
                                    ;|
   *    Выполняет проверку необходимости обновления NET-сборки загрузчика
@@ -46,6 +46,32 @@
     ) ;_ end of setq
   ) ;_ end of defun
 
+  (defun fun_get-xml-files (folder)
+                           ;|
+    *    Получает все xml-файлы из указанного каталога с их датами
+    *    Параметры вызова:
+      folder ; каталог, внутри которого искать xml файл
+    *    ВОзвращает список списков типа:
+     '((<ИМЯ ФАЙЛА ЗАГЛАВНЫМИ> <Полный путь к файлу> <Дата файла>)
+       (<ИМЯ ФАЙЛА ЗАГЛАВНЫМИ> <Полный путь к файлу> <Дата файла>)
+       ...
+       )
+    |;
+    (setq folder (vl-string-right-trim "\\" folder))
+    (vl-sort (mapcar
+               (function
+                 (lambda (file)
+                   (list (strcase file) (setq file (strcat folder file)) (fun_get-file-systime file))
+                 ) ;_ end of LAMBDA
+               ) ;_ end of function
+               (vl-directory-files folder "*.xml")
+             ) ;_ end of mapcar
+             (function (lambda (a b)
+                         (< (car a) (car b))
+                       ) ;_ end of lambda
+             ) ;_ end of function
+    ) ;_ end of vl-sort
+  ) ;_ end of defun
 
   (setq
           ; имя загрузчика
@@ -93,6 +119,45 @@
               ) ;_ end of if
             ) ;_ end of progn
           ) ;_ end of if
+
+          ;; Получаем все xml-файлы из серверного каталога стартера
+          (setq server_xml (fun_get-xml-files (VL-FILENAME-DIRECTORY server_loader))
+          ;; Получаем все xml-файлы из локального каталога стартера
+                local_xml (fun_get-xml-files (VL-FILENAME-DIRECTORY local_loader)))
+
+          (if (or (not (equal (mapcar (function car) server_xml)
+                              (mapcar (function car) local_xml)
+                       ) ;_ end of equal
+                  ) ;_ end of not
+                  (apply (function or)
+                         (mapcar (function (lambda (local_file server_file)
+                                             (< (last local_file)
+                                                (last server_file)
+                                             ) ;_ end of <
+                                           ) ;_ end of lambda
+                                 ) ;_ end of function
+                                 local_xml
+                                 server_xml
+                         ) ;_ end of mapcar
+                  ) ;_ end of apply
+              ) ;_ end of or
+            (progn
+              (foreach file (mapcar (function cadr) local_xml)
+                (vl-file-delete file)
+              ) ;_ end of foreach
+              (foreach file (mapcar (function cadr) server_xml)
+                (vl-file-copy
+                  file
+                  (strcat (vl-filename-directory local_loader)
+                          "\\"
+                          (vl-filename-base file)
+                          (vl-filename-extension file)
+                  ) ;_ end of strcat
+                ) ;_ end of vl-file-copy
+              ) ;_ end of foreach
+            ) ;_ end of progn
+          ) ;_ end of if
+          
         ) ;_ end of progn
       ) ;_ end of if
       (if (findfile local_loader)
