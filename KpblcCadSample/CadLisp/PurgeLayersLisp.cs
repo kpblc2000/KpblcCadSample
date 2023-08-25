@@ -69,13 +69,7 @@ namespace KpblcCadSample.CadLisp
                         using (LayerTableRecord layerEntity = trans.GetObject(layerId, OpenMode.ForRead) as LayerTableRecord)
                         {
                             string layerName = layerEntity.Name;
-
-                            var temp1 = usedLayers.Contains(layerName.ToUpper());
-                            var temp2 = maskLayers.Where(o => Regex.IsMatch(layerName.ToUpper(), o)).Any();
-
-                            var temp3 = Regex.IsMatch(layerName.ToUpper(), "ОНХП.*");
-                            var temp4 = Regex.IsMatch(layerName.ToUpper(), ".*|.*");
-
+                            
                             if (!usedLayers.Contains(layerName.ToUpper())
                                 && !maskLayers.Where(o => Regex.IsMatch(layerName.ToUpper(), o)).Any()
                                 )
