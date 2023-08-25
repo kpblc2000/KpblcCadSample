@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CadCommands\AboutCommand.cs" />
+    <Compile Include="CadLisp\PurgeLayersLisp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
