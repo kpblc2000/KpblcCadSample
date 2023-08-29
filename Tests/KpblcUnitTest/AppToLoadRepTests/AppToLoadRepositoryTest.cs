@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using KpblcCadLoader.Data;
 using KpblcCadLoader.Infrastrucute.Enums;
 using KpblcCadLoader.Repository;
 using NUnit.Framework;
@@ -34,6 +35,10 @@ namespace KpblcUnitTest.AppToLoadRepTests
             Assert.AreEqual(appRep.Applications.Where(
                 o => o.ApplicationType == ApplicationTypeEnum.Managed)
                 .Count(), 1);
+            ApplicationToLoad app =
+                appRep.Applications.FirstOrDefault(o => o.ApplicationType == ApplicationTypeEnum.Managed);
+            Assert.IsTrue(app.Subfolders);
+            Assert.AreEqual(app.FileExtensions.ToLowerInvariant(), ".dll;.xml");
         }
 
         [Test, Order(2)]
@@ -43,6 +48,10 @@ namespace KpblcUnitTest.AppToLoadRepTests
             Assert.AreEqual(appRep.Applications
                 .Where(o => o.ApplicationType == ApplicationTypeEnum.Arx)
                 .Count(), 1);
+            ApplicationToLoad app =
+                appRep.Applications.FirstOrDefault(o => o.ApplicationType == ApplicationTypeEnum.Arx);
+            Assert.IsFalse(app.Subfolders);
+            Assert.AreEqual(app.FileExtensions.ToLowerInvariant(), ".arx");
         }
 
         private string _loaderSettingsFileName;
