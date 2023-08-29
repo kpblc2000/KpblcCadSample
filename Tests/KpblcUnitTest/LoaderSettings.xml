@@ -24,11 +24,11 @@
 		  -->
 		<Item Name="KpblcCadSample" AppType="Managed" LocalPath="KpblcCadSample" AppName="KpblcCadSample.dll" FileExtensions=".dll;.xml" Subfolders="True">
 			<Path Value="\\server\CadApps\KpblcCadSample" Priority="0"/>
-			<Path Value="\\vmware-host\Shared Folders\Share\KpblcCadSample\Sample" Priority="1"/>
+			<Path Value="\\vmware-host\Shared Folders\Share\KpblcCadSample\KpblcCad" Priority="1"/>
 		</Item>
 		<Item Name="ExplodeProxy" AppType="Arx" LocalPath="ProxyArx" AppName="ExplodeAllProxy2021.arx" FileExtensions=".arx" Subfolders="False">
 			<Path Value="\\server\CadApps\KpblcCadSample" Priority="0"/>
-			<Path Value="\\vmware-host\Shared Folders\Share\KpblcCadSample\Sample" Priority="1"/>
+			<Path Value="\\vmware-host\Shared Folders\Share\KpblcCadSample\Proxy" Priority="1"/>
 		</Item>
 	</Applications>
 </Root>

@@ -49,6 +49,13 @@ namespace KpblcCadLoader.Repository
 
                 entity.LocalPath = Path.Combine(Environment.GetEnvironmentVariable("appdata"), o.LocalPath);
 
+                entity.FileExtensions = o.FileExtensions;
+
+                if (bool.TryParse(o.Subfolders, out bool subfolders))
+                {
+                    entity.Subfolders = subfolders;
+                }
+
                 return entity;
             })
                 .Where(o => 
@@ -160,6 +167,10 @@ namespace KpblcCadLoader.Repository
 
             private string appNameField;
 
+            private string fileExtensionsField;
+
+            private string subfoldersField;
+
             /// <remarks/>
             [System.Xml.Serialization.XmlElementAttribute("Path")]
             public RootItemPath[] Path
@@ -227,6 +238,34 @@ namespace KpblcCadLoader.Repository
                 set
                 {
                     this.appNameField = value;
+                }
+            }
+
+            /// <remarks/>
+            [System.Xml.Serialization.XmlAttributeAttribute()]
+            public string FileExtensions
+            {
+                get
+                {
+                    return this.fileExtensionsField;
+                }
+                set
+                {
+                    this.fileExtensionsField = value;
+                }
+            }
+
+            /// <remarks/>
+            [System.Xml.Serialization.XmlAttributeAttribute()]
+            public string Subfolders
+            {
+                get
+                {
+                    return this.subfoldersField;
+                }
+                set
+                {
+                    this.subfoldersField = value;
                 }
             }
         }

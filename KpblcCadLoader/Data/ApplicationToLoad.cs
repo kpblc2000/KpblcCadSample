@@ -15,5 +15,11 @@ namespace KpblcCadLoader.Data
 
         /// <summary> Путь, откуда надо грузить приложение </summary>
         public string ServerPath { get; set; }
+
+        /// <summary> Расширения файлов для кеширования, разделенные ";" </summary>
+        public string FileExtensions { get; set; }
+
+        /// <summary> Проходить по подкаталогам </summary>
+        public bool Subfolders { get; set; }
     }
 }
