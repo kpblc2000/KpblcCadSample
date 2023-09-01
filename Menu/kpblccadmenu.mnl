@@ -219,4 +219,4 @@
   (princ)
 ) ;_ end of defun
 
-; (menu-loader-and-all-updates)
+(menu-loader-and-all-updates)

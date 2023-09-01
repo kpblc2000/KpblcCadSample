@@ -22,45 +22,46 @@ namespace KpblcCadLoader.Repository
             }
 
             Applications = root.Applications.Select(o =>
-            {
-                ApplicationToLoad entity = new ApplicationToLoad()
                 {
-                    ApplicationName = o.Name,
-                    MainModuleName = o.AppName,
-                };
-                if (o.AppType.Equals(ApplicationTypeEnum.Managed.ToString(),
-                        StringComparison.InvariantCultureIgnoreCase))
-                {
-                    entity.ApplicationType = ApplicationTypeEnum.Managed;
-                }
-                else if (o.AppType.Equals(ApplicationTypeEnum.Arx.ToString(),
-                             StringComparison.InvariantCultureIgnoreCase))
-                {
-                    entity.ApplicationType = ApplicationTypeEnum.Arx;
-                }
-                else if (o.AppType.Equals(ApplicationTypeEnum.Lsp.ToString(),
-                             StringComparison.InvariantCultureIgnoreCase))
-                {
-                    entity.ApplicationType = ApplicationTypeEnum.Lsp;
-                }
+                    var temp = o;
+                    ApplicationToLoad entity = new ApplicationToLoad()
+                    {
+                        ApplicationName = o.Name,
+                        MainModuleName = o.AppName,
+                    };
+                    if (o.AppType.Equals(ApplicationTypeEnum.Managed.ToString(),
+                            StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        entity.ApplicationType = ApplicationTypeEnum.Managed;
+                    }
+                    else if (o.AppType.Equals(ApplicationTypeEnum.Arx.ToString(),
+                                 StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        entity.ApplicationType = ApplicationTypeEnum.Arx;
+                    }
+                    else if (o.AppType.Equals(ApplicationTypeEnum.Lsp.ToString(),
+                                 StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        entity.ApplicationType = ApplicationTypeEnum.Lsp;
+                    }
 
-                entity.ServerPath = o.Path.OrderByDescending(p => p.Priority)
-                    .FirstOrDefault(p => Directory.Exists(p.Value))?.Value ?? string.Empty;
+                    entity.ServerPath = o.Path.OrderByDescending(p => p.Priority)
+                        .FirstOrDefault(p => Directory.Exists(p.Value))?.Value ?? string.Empty;
 
-                entity.LocalPath = Path.Combine(Environment.GetEnvironmentVariable("appdata"), o.LocalPath);
+                    entity.LocalPath = Path.Combine(Environment.GetEnvironmentVariable("appdata"), o.LocalPath);
 
-                entity.FileExtensions = o.FileExtensions;
+                    entity.FileExtensions = o.FileExtensions.Split(new char[] { ';' });
 
-                if (bool.TryParse(o.Subfolders, out bool subfolders))
-                {
-                    entity.Subfolders = subfolders;
-                }
+                    if (bool.TryParse(o.Subfolders, out bool subfolders))
+                    {
+                        entity.Subfolders = subfolders;
+                    }
 
-                return entity;
-            })
-                .Where(o => 
+                    return entity;
+                })
+                .Where(o =>
                     !string.IsNullOrEmpty(o.ServerPath)
-                    && o.ApplicationType!= ApplicationTypeEnum.Unknown
+                    && o.ApplicationType != ApplicationTypeEnum.Unknown
                     && !o.LocalPath.Equals(Environment.GetEnvironmentVariable("appdata"), StringComparison.InvariantCultureIgnoreCase)
                     );
         }

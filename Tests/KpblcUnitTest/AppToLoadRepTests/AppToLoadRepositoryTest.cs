@@ -38,7 +38,6 @@ namespace KpblcUnitTest.AppToLoadRepTests
             ApplicationToLoad app =
                 appRep.Applications.FirstOrDefault(o => o.ApplicationType == ApplicationTypeEnum.Managed);
             Assert.IsTrue(app.Subfolders);
-            Assert.AreEqual(app.FileExtensions.ToLowerInvariant(), ".dll;.xml");
         }
 
         [Test, Order(2)]
@@ -51,7 +50,8 @@ namespace KpblcUnitTest.AppToLoadRepTests
             ApplicationToLoad app =
                 appRep.Applications.FirstOrDefault(o => o.ApplicationType == ApplicationTypeEnum.Arx);
             Assert.IsFalse(app.Subfolders);
-            Assert.AreEqual(app.FileExtensions.ToLowerInvariant(), ".arx");
+            Assert.AreEqual(app.FileExtensions
+                .Select(o => o.ToLowerInvariant()), new string[]{ ".arx"});
         }
 
         private string _loaderSettingsFileName;

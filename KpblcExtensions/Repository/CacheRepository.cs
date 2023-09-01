@@ -108,10 +108,18 @@ namespace KpblcExtensions.Repository
             return SourceFileName;
         }
 
-        private IEnumerable<string> GetFilesList(string FolderName, string[] FileExtensions)
+        /// <summary>
+        /// Получает список файлов из указанного каталога
+        /// </summary>
+        /// <param name="FolderName">Каталог, в котором надо выполнять поиск</param>
+        /// <param name="FileExtensions">перечень расширений файлов с точкой</param>
+        /// <param name="GetSubFolders">Проходить по подкаталогам</param>
+        /// <returns></returns>
+        public IEnumerable<string> GetFilesList(string FolderName, string[] FileExtensions, bool GetSubFolders = false)
         {
             string[] lowerExtensions = FileExtensions.Select(o => o.ToLowerInvariant()).ToArray();
-            return Directory.EnumerateFiles(FolderName, "*.*", SearchOption.TopDirectoryOnly)
+            return Directory.EnumerateFiles(FolderName, "*.*",
+                    GetSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
                 .Where(o => lowerExtensions.Contains(Path.GetExtension(o).ToLowerInvariant()));
         }
     }
