@@ -14,7 +14,7 @@ namespace KpblcExtensions.Repository
         /// <param name="FileExtensionsToSync">Список расширений файлов, которые надо синхронизировать</param>
         /// <param name="EraseLocalNotFoundOnSource">Удалять локальные файлы, если их нет в источнике</param>
         public void SyncronizeFolders(string SourceFolderName, string DestinationFolderName,
-            string[] FileExtensionsToSync, bool EraseLocalNotFoundOnSource=true)
+            string[] FileExtensionsToSync, bool EraseLocalNotFoundOnSource = true)
         {
             if (!Directory.Exists(SourceFolderName) && !Directory.Exists(DestinationFolderName))
             {
@@ -108,10 +108,19 @@ namespace KpblcExtensions.Repository
             return SourceFileName;
         }
 
-        private IEnumerable<string> GetFilesList(string FolderName, string[] FileExtensions)
+        /// <summary>
+        /// Получает список файлов из указанного каталога
+        /// </summary>
+        /// <param name="FolderName">Каталог, в котором надо выполнять поиск</param>
+        /// <param name="FileExtensions">Список расширений файлов</param>
+        /// <param name="GetSubFolders">Учитывать подкаталоги</param>
+        /// <returns></returns>
+        public IEnumerable<string> GetFilesList(string FolderName, string[] FileExtensions, bool GetSubFolders = false)
         {
             string[] lowerExtensions = FileExtensions.Select(o => o.ToLowerInvariant()).ToArray();
-            return Directory.EnumerateFiles(FolderName, "*.*", SearchOption.TopDirectoryOnly)
+            return Directory.EnumerateFiles(FolderName, "*.*",
+                GetSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly
+                )
                 .Where(o => lowerExtensions.Contains(Path.GetExtension(o).ToLowerInvariant()));
         }
     }

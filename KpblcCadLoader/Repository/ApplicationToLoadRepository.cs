@@ -49,7 +49,7 @@ namespace KpblcCadLoader.Repository
 
                 entity.LocalPath = Path.Combine(Environment.GetEnvironmentVariable("appdata"), o.LocalPath);
 
-                entity.FileExtensions = o.FileExtensions;
+                entity.FileExtensions = o.FileExtensions.Split(new char[] { ',', ';' });
 
                 if (bool.TryParse(o.Subfolders, out bool subfolders))
                 {
@@ -58,9 +58,9 @@ namespace KpblcCadLoader.Repository
 
                 return entity;
             })
-                .Where(o => 
+                .Where(o =>
                     !string.IsNullOrEmpty(o.ServerPath)
-                    && o.ApplicationType!= ApplicationTypeEnum.Unknown
+                    && o.ApplicationType != ApplicationTypeEnum.Unknown
                     && !o.LocalPath.Equals(Environment.GetEnvironmentVariable("appdata"), StringComparison.InvariantCultureIgnoreCase)
                     );
         }
