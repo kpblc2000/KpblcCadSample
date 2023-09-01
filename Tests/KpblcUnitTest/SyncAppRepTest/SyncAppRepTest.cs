@@ -120,6 +120,30 @@ namespace KpblcUnitTest.SyncAppRepTest
             Assert.AreEqual(serverFiles.Count, localFiles.Count);
         }
 
+        [OneTimeTearDown]
+        public void ClearAll()
+        {
+            if (Directory.Exists(_appWithoutSubFolders.LocalPath))
+            {
+                Directory.Delete(_appWithoutSubFolders.LocalPath, true);
+            }
+
+            if (Directory.Exists(_appWithoutSubFolders.ServerPath))
+            {
+                Directory.Delete(_appWithoutSubFolders.ServerPath, true);
+            }
+
+            if (Directory.Exists(_appWithSubFolders.LocalPath))
+            {
+                Directory.Delete(_appWithSubFolders.LocalPath, true);
+            }
+
+            if (Directory.Exists(_appWithSubFolders.ServerPath))
+            {
+                Directory.Delete(_appWithSubFolders.ServerPath, true);
+            }
+        }
+
         private void InitializeApp(ApplicationToLoad App, IEnumerable<string> FileNames)
         {
             if (Directory.Exists(App.ServerPath))
