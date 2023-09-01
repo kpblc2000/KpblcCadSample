@@ -9,6 +9,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KpblcCadLoader.Data;
+using KpblcCadLoader.Infrastrucute.Enums;
+using KpblcCadLoader.Repository;
+using KpblcExtensions.Repository;
+using NUnit.Framework;
 
 namespace KpblcUnitTest.SyncAppRepTest
 {
@@ -25,7 +30,7 @@ namespace KpblcUnitTest.SyncAppRepTest
 
         [Test, Order(0)]
         public void CheckAppWithSubfolders()
-        {
+            {
             ApplicationToLoad app = new ApplicationToLoad()
             {
                 ApplicationName = "test",
@@ -42,7 +47,7 @@ namespace KpblcUnitTest.SyncAppRepTest
             };
 
             InitializeApplication(app, new List<string>
-            {
+                {
                 "file01.txt",
                 "file02.dll",
                 "file03.log",
@@ -59,7 +64,7 @@ namespace KpblcUnitTest.SyncAppRepTest
                 )
                 .Select(o => o.Substring(app.ServerPath.Length + 1))
                 .OrderBy(o => o)
-                );
+            );
 
             List<string> localFiles = new List<string>(
                 _cacheRep.GetFilesList(app.LocalPath, app.FileExtensions, app.Subfolders)
@@ -71,7 +76,7 @@ namespace KpblcUnitTest.SyncAppRepTest
 
         [Test, Order(1)]
         public void CheckAppNoSubfolders()
-        {
+            {
             ApplicationToLoad app = new ApplicationToLoad()
             {
                 ApplicationName = "NoSubFolders",
@@ -79,13 +84,13 @@ namespace KpblcUnitTest.SyncAppRepTest
                 MainModuleName = "name",
                 ApplicationType = ApplicationTypeEnum.Unknown,
                 ServerPath = Path.Combine(Environment.GetEnvironmentVariable("temp"),
-      @"ServerPath\AppWithoutSubFolders"),
+                    @"ServerPath\AppWithoutSubFolders"),
                 FileExtensions = new string[]
-  {
-      ".txt",
-      ".dll",
-      ".log"
-  },
+                {
+                    ".txt",
+                    ".dll",
+                    ".log"
+                },
                 Subfolders = false
             };
 
@@ -102,18 +107,16 @@ namespace KpblcUnitTest.SyncAppRepTest
 
             List<string> serverFiles = new List<string>(
                 _cacheRep.GetFilesList(app.ServerPath, app.FileExtensions, app.Subfolders
-                )
+                    )
                 .Select(o => o.Substring(app.ServerPath.Length + 1))
                 .OrderBy(o => o)
-                );
+                    );
 
             List<string> localFiles = new List<string>(
                 _cacheRep.GetFilesList(app.LocalPath, app.FileExtensions, app.Subfolders)
                 .Select(o => o.Substring(app.LocalPath.Length + 1))
-                .OrderBy(o => o));
-
+                    .OrderBy(o => o));
             Assert.AreEqual(serverFiles.Count, localFiles.Count);
-
         }
 
         private void InitializeApplication(ApplicationToLoad App, IEnumerable<string> FileNames)
@@ -144,5 +147,29 @@ namespace KpblcUnitTest.SyncAppRepTest
 
         private SyncApplicationRepository _syncAppRep;
         private CacheRepository _cacheRep;
+
+        /*
+        [OneTimeSetUp]
+        public void StartUp()
+        {
+            _settingsFileName = Path.Combine(Environment.CurrentDirectory, "LoaderSettings.xml");
+            _appRep = new ApplicationToLoadRepository(_settingsFileName);
+        }
+
+        [Test, Order(0)]
+        public void UpdateManagedApp()
+        {
+            SyncApplicationRepository syncRep = new SyncApplicationRepository();
+            ApplicationToLoad app =
+                _appRep.Applications.FirstOrDefault(o => o.ApplicationType == ApplicationTypeEnum.Managed);
+            syncRep.SyncronizeApplication(app);
+
+            Assert.IsTrue(Directory.Exists(app.LocalPath));
+
+        }
+
+        private string _settingsFileName;
+        private ApplicationToLoadRepository _appRep;
+        */
     }
 }

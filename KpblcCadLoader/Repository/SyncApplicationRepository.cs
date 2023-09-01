@@ -1,4 +1,10 @@
-﻿using KpblcCadLoader.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using KpblcCadLoader.Data;
 using KpblcExtensions.Repository;
 using System.Collections.Generic;
 using System.IO;
@@ -52,6 +58,7 @@ namespace KpblcCadLoader.Repository
             foreach (KeyValuePair<string, string> item in serverFilesDict)
             {
                 string localFileName = Path.Combine(AcadApplication.LocalPath, item.Key);
+
                 if (!File.Exists(localFileName)
                     || File.GetLastWriteTimeUtc(localFileName) < File.GetLastWriteTimeUtc(item.Value)
                     )

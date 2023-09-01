@@ -26,9 +26,11 @@ namespace KpblcCadLoader
             }
 
             ApplicationToLoadRepository appRep = new ApplicationToLoadRepository(settingsFileName);
+            SyncApplicationRepository syncRep = new SyncApplicationRepository();
             foreach (ApplicationToLoad app in appRep.Applications)
             {
                 // 1. Откешировать на локальную машину (обновить то бишь)
+                syncRep.SyncronizeApplication(app);
                 // 2. Загрузить в зависимости от типа приложения
             }
         }
