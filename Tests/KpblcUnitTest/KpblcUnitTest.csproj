@@ -56,6 +56,7 @@
     <Compile Include="AppToLoadRepTests\AppToLoadRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncAppRepTest\SyncAppRepTest.cs" />
+    <Compile Include="ViewModelTests\BlockAttrColorViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="LoaderSettings.xml">
@@ -66,6 +67,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\KpblcCadCore\KpblcCadCore.csproj">
+      <Project>{249FC2B6-0F1C-4B88-99A1-CBE937CADE19}</Project>
+      <Name>KpblcCadCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\KpblcCadLoader\KpblcCadLoader.csproj">
       <Project>{6DF7160D-559A-4D9D-BF00-940C36DEABD9}</Project>
       <Name>KpblcCadLoader</Name>

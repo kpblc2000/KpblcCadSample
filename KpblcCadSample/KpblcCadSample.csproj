@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CadCommands\AboutCommand.cs" />
+    <Compile Include="CadCommands\PaintBlockCommad.cs" />
     <Compile Include="CadLisp\PurgeLayersLisp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -127,6 +128,11 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\KpblcCadCore\KpblcCadCore.csproj">
+      <Project>{249fc2b6-0f1c-4b88-99a1-cbe937cade19}</Project>
+      <Name>KpblcCadCore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,56 @@
+﻿<Window x:Class="KpblcCadCore.Views.Windows.PaintAttrAndBlockWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KpblcCadCore.Views.Windows"
+        xmlns:vm="clr-namespace:KpblcCadCore.ViewModels"
+        mc:Ignorable="d"
+        Title="PaintAttrAndBlockWindow"
+        Height="150"
+        Width="300">
+    <Window.DataContext>
+        <vm:BlockAttributeColoringViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Text="Значение атрибута" />
+        <TextBox Grid.Row="0"
+                 Grid.Column="1"
+                 Text="{Binding AttributeText, UpdateSourceTrigger=PropertyChanged}" />
+        <CheckBox Grid.Row="1"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Content="Красить атрибут в красный"
+                  IsEnabled="{Binding CanColorAttributeToRed}"
+                  IsChecked="{Binding PaintAttributeToRed}" />
+        <CheckBox Grid.Row="2"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  Content="Красить блок в синий"
+                  IsEnabled="{Binding CanColorBlockToBlue}"
+                  IsChecked="{Binding PaintBlockToBlue}" />
+        <UniformGrid Grid.Row="3"
+                     Grid.Column="0"
+                     Grid.ColumnSpan="2"
+                     Rows="1"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Bottom">
+            <Button Content="Применить"
+                    IsEnabled="{Binding OkButtonAvailable}" />
+            <Button Content="Отмена"
+                    IsCancel="True" />
+        </UniformGrid>
+    </Grid>
+</Window>
