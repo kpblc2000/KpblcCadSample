@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Root>
+	<LoaderPaths>
+		<!--
+		Перечень путей, по которым надо искать приложение
+	    Value = каталог, в котором надо искать
+		Priority = приоритет поиска. Чем число ниже, тем более приоритетен каталог
+		-->
+		<Path Value="\\server\loader" Priority="0"/>
+		<Path Value="\\vmware-host\Shared Folders\Share\KpblcCadSample\loader" Priority="-1"/>
+	</LoaderPaths>
+	<Applications>
+		<!--
+		Описание приложений для загрузки
+		Name = имя приложения. Чисто для информации
+		AppType = тип приложения. Managed = NET-сборка; Arx - arx-модуль; Lsp - lsp-файл
+		LocalPath = локальный путь расположения приложения. Высчитывается от %AppData%
+		AppName = собственно имя приложения, с расширением
+		FileExtensions = расширения файлов для кеширования, разделенные ";"
+		Subfolders = проходить по подкаталогам. Допустимые значения True / False
+		Подузлы - перечень путей, по которым надо искать приложение
+	      Value = каталог, в котором надо искать
+		  Priority = приоритет поиска. Чем число ниже, тем более приоритетен каталог
+		  -->
+		<Item Name="KpblcCadSample" AppType="Managed" LocalPath="KpblcCadSample" AppName="KpblcCadSample.dll" FileExtensions=".dll;.xml" Subfolders="True">
+			<Path Value="\\server\CadApps\KpblcCadSample" Priority="0"/>
+			<Path Value="\\vmware-host\Shared Folders\Share\KpblcCadSample\Sample" Priority="1"/>
+		</Item>
+		<Item Name="ExplodeProxy" AppType="Arx" LocalPath="ProxyArx" AppName="ExplodeAllProxy2021.arx" FileExtensions=".arx" Subfolders="False">
+			<Path Value="\\server\CadApps\KpblcCadSample" Priority="0"/>
+			<Path Value="\\vmware-host\Shared Folders\Share\KpblcCadSample\Sample" Priority="1"/>
+		</Item>
+	</Applications>
+</Root>

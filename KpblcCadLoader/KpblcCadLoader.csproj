@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1E36605C-1DF9-461B-8B65-FD1826B9C6AD}</ProjectGuid>
+    <ProjectGuid>{6DF7160D-559A-4D9D-BF00-940C36DEABD9}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>KpblcCadSample</RootNamespace>
-    <AssemblyName>KpblcCadSample</AssemblyName>
+    <RootNamespace>KpblcCadLoader</RootNamespace>
+    <AssemblyName>KpblcCadLoader</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>\\vmware-host\Shared Folders\Share\KpblcCadSample\KpblcCad\</OutputPath>
+    <OutputPath>\\vmware-host\Shared Folders\Share\KpblcCadSample\Loader\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -102,8 +102,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CadCommands\AboutCommand.cs" />
-    <Compile Include="CadLisp\PurgeLayersLisp.cs" />
+    <Compile Include="AppInitialize.cs" />
+    <Compile Include="Data\ApplicationToLoad.cs" />
+    <Compile Include="Infrastrucute\Enums\ApplicationTypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -117,6 +118,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Repository\ApplicationToLoadRepository.cs" />
+    <Compile Include="Repository\SyncApplicationRepository.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -127,6 +130,16 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="LoaderSettings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KpblcExtensions\KpblcExtensions.csproj">
+      <Project>{a29ca899-bd50-4a42-898b-d465ba493619}</Project>
+      <Name>KpblcExtensions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
