@@ -85,6 +85,11 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\KpblcExtensions\KpblcExtensions.csproj">
+      <Project>{a29ca899-bd50-4a42-898b-d465ba493619}</Project>
+      <Name>KpblcExtensions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

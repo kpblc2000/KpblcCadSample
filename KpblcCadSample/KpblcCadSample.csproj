@@ -133,6 +133,10 @@
       <Project>{249fc2b6-0f1c-4b88-99a1-cbe937cade19}</Project>
       <Name>KpblcCadCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KpblcExtensions\KpblcExtensions.csproj">
+      <Project>{A29CA899-BD50-4A42-898B-D465BA493619}</Project>
+      <Name>KpblcExtensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
 ﻿using KpblcCadCore.ViewModels.Base;
+using KpblcExtensions.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,11 +63,28 @@ namespace KpblcCadCore.ViewModels
             private set => Set(ref _OkButtonAvailable, value);
         }
 
+        public WindowResult WinResult
+        {
+            get => _winRes;
+            private set => Set(ref _winRes, value);
+        }
+
+        public void OnOkButtonClick()
+        {
+            WinResult = WindowResult.OK;
+        }
+
+        public void OnCancelButtonClick()
+        {
+            WinResult = WindowResult.Cancel;
+        }
+
         private string _attributeText;
         private bool _canColorAttributeToRed;
         private bool _canColorBlockToBlue;
         private bool _paintAttributeToRed;
         private bool _paintBlockToBlue;
         private bool _OkButtonAvailable;
+        public WindowResult _winRes;
     }
 }

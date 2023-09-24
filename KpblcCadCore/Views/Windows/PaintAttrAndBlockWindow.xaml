@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="PaintAttrAndBlockWindow"
         Height="150"
-        Width="300">
+        Width="300" Loaded="OnWindowLoaded">
     <Window.DataContext>
         <vm:BlockAttributeColoringViewModel />
     </Window.DataContext>
@@ -48,9 +48,11 @@
                      HorizontalAlignment="Right"
                      VerticalAlignment="Bottom">
             <Button Content="Применить"
-                    IsEnabled="{Binding OkButtonAvailable}" />
+                    IsEnabled="{Binding OkButtonAvailable}"
+                    Click="OnOkClick"
+                    />
             <Button Content="Отмена"
-                    IsCancel="True" />
+                    IsCancel="True" Click="OnCancelClick" />
         </UniformGrid>
     </Grid>
 </Window>

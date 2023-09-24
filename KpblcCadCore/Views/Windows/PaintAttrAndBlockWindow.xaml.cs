@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KpblcCadCore.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace KpblcCadCore.Views.Windows
 {
@@ -22,6 +11,33 @@ namespace KpblcCadCore.Views.Windows
         public PaintAttrAndBlockWindow()
         {
             InitializeComponent();
+            IniDataContext();
+        }
+
+        private void OnOkClick(object sender, RoutedEventArgs e)
+        {
+            IniDataContext();
+            _viewModel.OnOkButtonClick();
+            Close();
+        }
+
+        BlockAttributeColoringViewModel _viewModel;
+
+        private void OnCancelClick(object sender, RoutedEventArgs e)
+        {
+            IniDataContext();
+            _viewModel.OnCancelButtonClick();
+            Close();
+        }
+
+        private void OnWindowLoaded(object sender, RoutedEventArgs e)
+        {
+            IniDataContext();
+        }
+
+        private void IniDataContext()
+        {
+            _viewModel = this.DataContext as BlockAttributeColoringViewModel;
         }
     }
 }
